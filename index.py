@@ -12,6 +12,9 @@ app = Flask(__name__)
 appid = "wxd315dbdf94f065f3"
 appsecret = "fd115dc3a2603d5c92772b7a6aa3540f"
 
+mini_appid = "wxe8fd6407da9c0206"
+mini_appsecret = "7de8b05401486a7963de7975d117f5a"
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -107,18 +110,6 @@ def wechat_test():
     getString = "http://flask.huchangyi.com/wechat?signature=789bbf0fc5406791e882c7720ebaf352dba6d3b4&echostr=16320267320662293951&timestamp=1527643317&nonce=1129712787"
     testflag = requests.get(getString).text
     return render_template('test.html', testflag=testflag)
-    '''
-    post
-    payload = {'key1': 'value1', 'key2': 'value2'}
-    r = requests.post("http://httpbin.org/post", data=payload)
-    print r.text
-    认证
-    url = 'http://localhost:8080'
-    r = requests.post(url, data={}, auth=HTTPBasicAuth('admin', 'admin'))
-    print r.status_code
-    print r.headers
-    print r.reason
-    '''
 
 
 @app.route('/get_access_token', methods=['GET', 'POST'])
@@ -162,7 +153,7 @@ def create_menu():
     "button": [
         {
             "type": "click",
-            "name": "小程序",
+            "name": "小程序2",
             "key": "click02"
         },
         {

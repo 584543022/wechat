@@ -6,11 +6,12 @@ import requests
 import json
 import logging
 import time
+import urllib
 
 app = Flask(__name__)
 
-appid = "wx40a3c27c2a2e5822"
-appsecret = "a7a4575ea5c5ce7754f69c87f452f6c8"
+appid = "wxd315dbdf94f065f3"
+appsecret = "fd115dc3a2603d5c92772b7a6aa3540f"
 
 mini_appid = "wxe8fd6407da9c0206"
 mini_appsecret = "7de8b05401486a7963de7975d117f5a"
@@ -152,9 +153,9 @@ def create_menu():
     postData = {
     "button": [
         {
-            "type": "click",
-            "name": "小程序2",
-            "key": "click02"
+            "type": "view",
+            "name": "网页",
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd315dbdf94f065f3&redirect_uri=http%3A%2F%2Fflask.huchangyi.com%2Fuserinfo&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
         },
         {
             "name": "菜单一",
@@ -235,6 +236,7 @@ def wifi():
     return render_template('wifi.html')
 
 
+#开放连wifi
 @app.route('/openplugin', methods=['GET', 'POST'])
 def openplugin():
     access_token = get_access_token()
@@ -245,6 +247,27 @@ def openplugin():
     postData = json.dumps(postData, ensure_ascii=False).encode('utf-8')
     resString = requests.post(getUrl, data=postData).text
     return resString
+
+
+@app.route('/userinfo', methods=['GET', 'POST'])
+def userinfo():
+    return render_template('userinfo.html', testflag="testflag")
+
+
+"""
+以snsapi_base为scope发起的网页授权，是用来获取进入页面的用户的openid的，并且是静默授权并自动跳转到回调页的。用户感知的就是直接进入了回调页（往往是业务页面）
+以snsapi_userinfo为scope发起的网页授权，是用来获取用户的基本信息的。但这种授权需要用户手动同意，并且由于用户同意过，所以无须关注，就可在授权后获取该用户的基本信息。
+"""
+#webgetcode
+@app.route('/webgetcode', methods=['GET', 'POST'])
+def webgetcode():
+    myUrl = "http://flask.huchangyi.com/userinfo"
+    myUrl = urllib.parse.quote(myUrl, safe='')
+    urlString = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" \
+                + appid \
+                + "&redirect_uri=" + myUrl \
+                + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+    return urlString
 
 
 if __name__ == '__main__':

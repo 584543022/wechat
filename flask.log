@@ -1,11 +1,6 @@
-Mon, 04 Jun 2018 15:41:24 _internal.py[line:88] INFO  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
-Mon, 04 Jun 2018 15:41:25 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
-Mon, 04 Jun 2018 15:41:26 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "GET /cgi-bin/token?grant_type=client_credential&appid=wxd315dbdf94f065f3&secret=fd115dc3a2603d5c92772b7a6aa3540f HTTP/1.1" 200 194
-Mon, 04 Jun 2018 15:41:26 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
-Mon, 04 Jun 2018 15:41:26 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "POST /bizwifi/openplugin/token?access_token=10_HSeqcEeR1FtWDryTMiqrJW3ZNI2G0tcdxhugWLrvntWGJHXkf7Z0ZExuYXvuvLi_VF4brpkY5hBqTy22uAVcViX9j88bILZ6T3exjoTGXFzIMiDWjfYSxVjbylPRx2KwcYuCbeZgsIDmHNlLIGMcACABZF HTTP/1.1" 200 54
-Mon, 04 Jun 2018 15:41:26 _internal.py[line:88] INFO 127.0.0.1 - - [04/Jun/2018 15:41:26] "GET /openplugin HTTP/1.1" 200 -
-Mon, 04 Jun 2018 15:46:44 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
-Mon, 04 Jun 2018 15:46:44 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "GET /cgi-bin/token?grant_type=client_credential&appid=wxd315dbdf94f065f3&secret=fd115dc3a2603d5c92772b7a6aa3540f HTTP/1.1" 200 194
-Mon, 04 Jun 2018 15:46:44 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
-Mon, 04 Jun 2018 15:46:45 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "POST /bizwifi/openplugin/token?access_token=10_E-NwzATwvvVC5tKVvUSUXdfDs0maVXM3o5W5a4n12LSsmzjHqQRM1k479a9oc1w7f4Z7c_7raZDEjSRGV-BjHAKeKh5xNoLPnwMAAmT-zbq6PS_HwOs703u4LLGIoMQMkNQPH_eI--MF964PNXVdAJARBZ HTTP/1.1" 200 54
-Mon, 04 Jun 2018 15:46:45 _internal.py[line:88] INFO 127.0.0.1 - - [04/Jun/2018 15:46:45] "GET /openplugin HTTP/1.1" 200 -
+Mon, 04 Jun 2018 17:29:03 _internal.py[line:88] INFO  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+Mon, 04 Jun 2018 17:29:10 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
+Mon, 04 Jun 2018 17:29:10 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "GET /cgi-bin/token?grant_type=client_credential&appid=wxd315dbdf94f065f3&secret=fd115dc3a2603d5c92772b7a6aa3540f HTTP/1.1" 200 194
+Mon, 04 Jun 2018 17:29:10 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
+Mon, 04 Jun 2018 17:29:11 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "POST /cgi-bin/menu/create?access_token=10_ZuGaaYvVfT3BW2POtqclKY1dMSyTFfIUtt-m_sAPECrjNJHDzASTTi1_2POmXJIkgyNF525qqoieL-TGt8mFEs8YGMP9pqbL1CGhqlltywR_F3UK_vimixWMgBQzQrDhyjTswx0M3PuWXjsOGPFcACAJSI HTTP/1.1" 200 27
+Mon, 04 Jun 2018 17:29:11 _internal.py[line:88] INFO 127.0.0.1 - - [04/Jun/2018 17:29:11] "GET /create_menu HTTP/1.1" 200 -

@@ -240,7 +240,7 @@ def openplugin():
     access_token = get_access_token()
     getUrl = "https://api.weixin.qq.com/bizwifi/openplugin/token?access_token=" + access_token
     postData = {
-        "callback_url": "http://flask.huchangyi.com"
+        "callback_url": "http://flask.huchangyi.com/"
     }
     postData = json.dumps(postData, ensure_ascii=False).encode('utf-8')
     resString = requests.post(getUrl, data=postData).text

@@ -9,8 +9,8 @@ import time
 
 app = Flask(__name__)
 
-appid = "wxd315dbdf94f065f3"
-appsecret = "fd115dc3a2603d5c92772b7a6aa3540f"
+appid = "wx40a3c27c2a2e5822"
+appsecret = "a7a4575ea5c5ce7754f69c87f452f6c8"
 
 mini_appid = "wxe8fd6407da9c0206"
 mini_appsecret = "7de8b05401486a7963de7975d117f5a"
@@ -227,6 +227,23 @@ def delete_menu():
     access_token = get_access_token()
     getUrl = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=" + access_token
     resString = requests.get(getUrl).text
+    return resString
+
+
+@app.route('/wifi', methods=['GET', 'POST'])
+def wifi():
+    return render_template('wifi.html')
+
+
+@app.route('/openplugin', methods=['GET', 'POST'])
+def openplugin():
+    access_token = get_access_token()
+    getUrl = "https://api.weixin.qq.com/bizwifi/openplugin/token?access_token=" + access_token
+    postData = {
+        "callback_url": "http://flask.huchangyi.com"
+    }
+    postData = json.dumps(postData, ensure_ascii=False).encode('utf-8')
+    resString = requests.post(getUrl, data=postData).text
     return resString
 
 

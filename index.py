@@ -149,7 +149,7 @@ def create_menu():
         "type": "media_id",
         "name": "下发消息",
         "key": "media_id"
-    },
+    }
     {
         "type": "view_limited",
         "name": "跳转图文",
@@ -169,14 +169,15 @@ def create_menu():
             "name": "菜单一",
             "sub_button": [
                 {
-                    "type": "view",
+                    "type": "click",
                     "name": "点击",
-                    "key": "view"
+                    "key": "click"
                 },
                 {
                     "type": "view",
                     "name": "网站",
-                    "url": "http://www.huchangyi.com/"
+                    "url": "http://www.huchangyi.com/",
+                    "key": "view"
                 },
                 {
                     "type": "scancode_push",

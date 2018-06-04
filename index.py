@@ -58,7 +58,7 @@ def wechat():
         FromUserName = xml.find("FromUserName").text
         MsgType = xml.find("MsgType").text
         if(MsgType == "text"):
-            Content = "已收到文本消息：" + xml.find("Content").text
+            Content = "收到文本消息：" + xml.find("Content").text
         elif (MsgType == "image"):
             Content = "收到图片消息"
         elif (MsgType == "voice"):
@@ -71,6 +71,25 @@ def wechat():
             Content = "收到地理位置消息"
         elif (MsgType == "link"):
             Content = "收到链接消息"
+        #自定义菜单事件推送
+        elif (MsgType == "event"):
+            Event = xml.find("Event").text
+            if(Event == "CLICK"):
+                Content = "点击菜单拉取的事件"
+            elif (Event == "VIEW"):
+                Content = "点击菜单跳转链接的事件"
+            elif (Event == "scancode_push"):
+                Content = "扫码推事件"
+            elif (Event == "scancode_waitmsg"):
+                Content = "扫码推事件且弹出消息接收中的事件"
+            elif (Event == "pic_sysphoto"):
+                Content = "弹出系统拍照发图的事件"
+            elif (Event == "pic_photo_or_album"):
+                Content = "弹出拍照或者相册发图的事件"
+            elif (Event == "pic_weixin"):
+                Content = "弹出微信相册发图器的事件"
+            elif (Event == "location_select"):
+                Content = "弹出地理位置选择器的事件"
         reply = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>"
         app.logger.info("开发者微信号:" + FromUserName + "发送方帐号:" + ToUserName + "文本消息内容:" + Content)
         response = make_response(

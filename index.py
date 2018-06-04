@@ -56,10 +56,21 @@ def wechat():
         xml = ElementTree.fromstring(request.data)
         ToUserName = xml.find("ToUserName").text
         FromUserName = xml.find("FromUserName").text
-        try:
-            Content = xml.find("Content").text + "是什么意思"
-        except:
-            Content = "非文本消息无法处理"
+        MsgType = xml.find("MsgType").text
+        if(MsgType == "text"):
+            Content = "已收到文本消息：" + xml.find("Content").text
+        elif (MsgType == "image"):
+            Content = "收到图片消息"
+        elif (MsgType == "voice"):
+            Content = "收到语音消息"
+        elif (MsgType == "video"):
+            Content = "收到视频消息"
+        elif (MsgType == "shortvideo"):
+            Content = "收到小视频消息"
+        elif (MsgType == "location"):
+            Content = "收到地理位置消息"
+        elif (MsgType == "link"):
+            Content = "收到链接消息"
         reply = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>"
         app.logger.info("开发者微信号:" + FromUserName + "发送方帐号:" + ToUserName + "文本消息内容:" + Content)
         response = make_response(

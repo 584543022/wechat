@@ -145,6 +145,16 @@ def create_menu():
     8、location_select：弹出地理位置选择器用户点击按钮后，微信客户端将调起地理位置选择工具，完成选择操作后，将选择的地理位置发送给开发者的服务器，同时收起位置选择工具，随后可能会收到开发者下发的消息。
     9、media_id：下发消息（除文本消息）用户点击media_id类型按钮后，微信服务器会将开发者填写的永久素材id对应的素材下发给用户，永久素材类型可以是图片、音频、视频、图文消息。请注意：永久素材id必须是在“素材管理/新增永久素材”接口上传后获得的合法id。
     10、view_limited：跳转图文消息URL用户点击view_limited类型按钮后，微信客户端将打开开发者在按钮中填写的永久素材id对应的图文消息URL，永久素材类型只支持图文消息。请注意：永久素材id必须是在“素材管理/新增永久素材”接口上传后获得的合法id。
+    {
+        "type": "media_id",
+        "name": "下发消息",
+        "key": "media_id"
+    },
+    {
+        "type": "view_limited",
+        "name": "跳转图文",
+        "key": "view_limited"
+    }
     """
     access_token = get_access_token()
     postUrl = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=" + access_token
@@ -202,16 +212,6 @@ def create_menu():
                     "type": "location_select",
                     "name": "地理位置",
                     "key": "location_select"
-                },
-                {
-                    "type": "media_id",
-                    "name": "下发消息",
-                    "key": "media_id"
-                },
-                {
-                    "type": "view_limited",
-                    "name": "跳转图文",
-                    "key": "view_limited"
                 }
             ]
         }

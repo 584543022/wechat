@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response
+from flask import Flask, render_template, make_response, redirect
 import os
 from flask import request
 import hashlib
@@ -251,7 +251,17 @@ def openplugin():
 
 @app.route('/userinfo', methods=['GET', 'POST'])
 def userinfo():
+    data = request.args
+    if(data != None):
+        code = data.get("code")
+        state = data.get("state")
     return render_template('userinfo.html', testflag="testflag")
+
+
+#web
+@app.route('/web', methods=['GET', 'POST'])
+def web():
+    return redirect(webgetcode())
 
 
 """
@@ -268,6 +278,20 @@ def webgetcode():
                 + "&redirect_uri=" + myUrl \
                 + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
     return urlString
+
+
+@app.route('/get_web_access_token', methods=['GET', 'POST'])
+def get_web_access_token(code):
+    url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" \
+          + appid + "&secret=" \
+          + appsecret + "&code=" \
+          + code + "&grant_type=authorization_code"
+    data = requests.get(url)
+    data = json.load(data)
+    web_access_token = data.get("access_token")
+    refresh_token = data.get("refresh_token")
+    openid = data.get("openid")
+    return render_template('userinfo.html', testflag="testflag")
 
 
 if __name__ == '__main__':

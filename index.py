@@ -255,7 +255,7 @@ def userinfo():
     if(data != None):
         code = data.get("code")
         state = data.get("state")
-    return render_template('userinfo.html', testflag="testflag")
+    return render_template('userinfo.html', code=code, state=state)
 
 
 #web

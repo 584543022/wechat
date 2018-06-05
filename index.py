@@ -255,7 +255,22 @@ def userinfo():
     if(data != None):
         code = data.get("code")
         state = data.get("state")
-    return render_template('userinfo.html', code=code, state=state)
+        token_data = get_web_access_token(code)
+        web_access_token = token_data.get("access_token")
+        refresh_token = token_data.get("refresh_token")
+        openid = token_data.get("openid")
+    return render_template('userinfo.html', code=code, state=state, web_access_token=web_access_token, refresh_token=refresh_token, openid=openid)
+
+
+@app.route('/get_web_access_token', methods=['GET', 'POST'])
+def get_web_access_token(code):
+    url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" \
+          + appid + "&secret=" \
+          + appsecret + "&code=" \
+          + code + "&grant_type=authorization_code"
+    data = requests.get(url)
+    data = json.load(data)
+    return data
 
 
 #web
@@ -278,20 +293,6 @@ def webgetcode():
                 + "&redirect_uri=" + myUrl \
                 + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
     return urlString
-
-
-@app.route('/get_web_access_token', methods=['GET', 'POST'])
-def get_web_access_token(code):
-    url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" \
-          + appid + "&secret=" \
-          + appsecret + "&code=" \
-          + code + "&grant_type=authorization_code"
-    data = requests.get(url)
-    data = json.load(data)
-    web_access_token = data.get("access_token")
-    refresh_token = data.get("refresh_token")
-    openid = data.get("openid")
-    return render_template('userinfo.html', testflag="testflag")
 
 
 if __name__ == '__main__':

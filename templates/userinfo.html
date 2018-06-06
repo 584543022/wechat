@@ -5,10 +5,17 @@
     <title>用户信息</title>
 </head>
 <body>
-    code：{{ code | safe }}<br/>
+    code1：{{ code | safe }}<br/>
     state：{{ state | safe }}<br/>
     web_access_token：{{ web_access_token | safe }}<br/>
     refresh_token：{{ refresh_token | safe }}<br/>
     openid：{{ openid | safe }}<br/>
+    nickname：{{ nickname | safe }}<br/>
+    sex：{{ sex | safe }}<br/>
+    province：{{ province | safe }}<br/>
+    city：{{ city | safe }}<br/>
+    country：{{ country | safe }}<br/>
+    headimgurl：{{ headimgurl | safe }}<br/>
+    <img src="{{ headimgurl | safe }}"  alt="用户头像" />
 </body>
 </html>

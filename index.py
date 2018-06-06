@@ -7,6 +7,8 @@ import json
 import logging
 import time
 import urllib
+import pymysql
+import datetime
 
 app = Flask(__name__)
 
@@ -22,10 +24,12 @@ def home():
     return render_template('test.html', testflag="testflag")
 
 
-@app.route('/wechat', methods=['GET', 'POST'])
+@app.route('/wechat/', methods=['GET', 'POST'])
 def wechat():
-    #GET方法为验证请求
-    '''
+    """
+    get方法为验证请求
+    post方法为所有消息事件
+    request.
         method： 起始行，元数据
         host： 起始行，元数据
         path： 起始行，元数据
@@ -38,7 +42,8 @@ def wechat():
         values： args 和 forms 的集合
         json： json 格式的 body 数据，解析后
         cookies： 指向 Cookie 的链接
-        '''
+    :return: 返回给微信的验证
+    """
     if request.method == 'GET':
         token = 'huchangyi'
         data = request.args
@@ -54,7 +59,6 @@ def wechat():
             return make_response(echostr)
         else:
             return make_response("error")
-    #post方法为所有消息事件
     elif request.method == 'POST':
         from xml.etree import ElementTree
         xml = ElementTree.fromstring(request.data)
@@ -105,16 +109,52 @@ def wechat():
         return None
 
 
+@app.route('/test/', methods=['GET', 'POST'])
+def test():
+    nowtime = datetime.datetime.now()
+    db = pymysql.connect("qdm165067450.my3w.com", "qdm165067450", "huchangyi", "qdm165067450_db")
+    cursor = db.cursor()
+    cursor.execute("select * from access_token order by time desc limit 1")
+    data = cursor.fetchone()
+    lasttime = data[2]
+    db.close()
+    try:
+        lasttime = datetime.datetime.strptime(lasttime, "%Y-%m-%d %H:%M:%S.%f")
+    except:
+        lasttime = datetime.datetime.strptime(lasttime, "%Y-%m-%d-%H")
+    if(nowtime-lasttime>datetime.timedelta(minutes=120) ):
+        getString = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" \
+                    + appid + "&secret=" + appsecret
+        jsonString = requests.get(getString).text
+        # jsonDump = json.dumps(jsonString)
+        # jsonData = json.loads(jsonDump)
+        jsonData = eval(jsonString)
+        access_token = jsonData['access_token']
+        db = pymysql.connect("qdm165067450.my3w.com", "qdm165067450", "huchangyi", "qdm165067450_db")
+        cursor = db.cursor()
+        try:
+            sql = "update access_token set token = '" + access_token + "', time = '"\
+                           + str(nowtime) + "' where id = 1"
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+        db.close()
+        return access_token
+    else:
+        return data[0]
 
-@app.route('/wechat_test', methods=['GET', 'POST'])
-def wechat_test():
-    getString = "http://flask.huchangyi.com/wechat?signature=789bbf0fc5406791e882c7720ebaf352dba6d3b4&echostr=16320267320662293951&timestamp=1527643317&nonce=1129712787"
-    testflag = requests.get(getString).text
-    return render_template('test.html', testflag=testflag)
 
-
-@app.route('/get_access_token', methods=['GET', 'POST'])
+@app.route('/get_access_token/', methods=['GET', 'POST'])
 def get_access_token():
+    """
+    根据公共变量appid和appsecret获取access_token
+    :return:
+    """
+
+
+
+
     getString = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appsecret
     jsonString = requests.get(getString).text
     #jsonDump = json.dumps(jsonString)
@@ -124,7 +164,7 @@ def get_access_token():
     return access_token
 
 
-@app.route('/create_menu', methods=['GET', 'POST'])
+@app.route('/create_menu/', methods=['GET', 'POST'])
 def create_menu():
     """
     1、click：点击推事件用户点击click类型按钮后，微信服务器会通过消息接口推送消息类型为event的结构给开发者（参考消息接口指南），并且带上按钮中开发者填写的key值，开发者可以通过自定义的key值与用户进行交互；
@@ -215,7 +255,7 @@ def create_menu():
     return resString
 
 
-@app.route('/get_menu', methods=['GET', 'POST'])
+@app.route('/get_menu/', methods=['GET', 'POST'])
 def get_menu():
     access_token = get_access_token()
     getUrl = "https://api.weixin.qq.com/cgi-bin/menu/get?access_token=" + access_token
@@ -223,7 +263,7 @@ def get_menu():
     return resString
 
 
-@app.route('/delete_menu', methods=['GET', 'POST'])
+@app.route('/delete_menu/', methods=['GET', 'POST'])
 def delete_menu():
     access_token = get_access_token()
     getUrl = "https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=" + access_token
@@ -231,13 +271,12 @@ def delete_menu():
     return resString
 
 
-@app.route('/wifi', methods=['GET', 'POST'])
+@app.route('/wifi/', methods=['GET', 'POST'])
 def wifi():
     return render_template('wifi.html')
 
 
-#开放连wifi
-@app.route('/openplugin', methods=['GET', 'POST'])
+@app.route('/openplugin/', methods=['GET', 'POST'])
 def openplugin():
     access_token = get_access_token()
     getUrl = "https://api.weixin.qq.com/bizwifi/openplugin/token?access_token=" + access_token
@@ -249,50 +288,79 @@ def openplugin():
     return resString
 
 
-@app.route('/userinfo', methods=['GET', 'POST'])
-def userinfo():
-    data = request.args
-    if(data != None):
-        code = data.get("code")
-        state = data.get("state")
-        token_data = get_web_access_token(code)
-        web_access_token = token_data.get("access_token")
-        refresh_token = token_data.get("refresh_token")
-        openid = token_data.get("openid")
-    return render_template('userinfo.html', code=code, state=state, web_access_token=web_access_token, refresh_token=refresh_token, openid=openid)
-
-
-@app.route('/get_web_access_token', methods=['GET', 'POST'])
-def get_web_access_token(code):
-    url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" \
-          + appid + "&secret=" \
-          + appsecret + "&code=" \
-          + code + "&grant_type=authorization_code"
-    data = requests.get(url)
-    data = json.load(data)
-    return data
-
-
-#web
-@app.route('/web', methods=['GET', 'POST'])
+@app.route('/web/', methods=['GET', 'POST'])
 def web():
-    return redirect(webgetcode())
-
-
-"""
-以snsapi_base为scope发起的网页授权，是用来获取进入页面的用户的openid的，并且是静默授权并自动跳转到回调页的。用户感知的就是直接进入了回调页（往往是业务页面）
-以snsapi_userinfo为scope发起的网页授权，是用来获取用户的基本信息的。但这种授权需要用户手动同意，并且由于用户同意过，所以无须关注，就可在授权后获取该用户的基本信息。
-"""
-#webgetcode
-@app.route('/webgetcode', methods=['GET', 'POST'])
-def webgetcode():
+    """
+    以snsapi_base为scope发起的网页授权，是用来获取进入页面的用户的openid的，并且是静默授权并自动跳转到回调页的。用户感知的就是直接进入了回调页（往往是业务页面）
+    以snsapi_userinfo为scope发起的网页授权，是用来获取用户的基本信息的。但这种授权需要用户手动同意，并且由于用户同意过，所以无须关注，就可在授权后获取该用户的基本信息。
+    定义返回地址后，已微信要求的格式传参
+    """
     myUrl = "http://flask.huchangyi.com/userinfo"
     myUrl = urllib.parse.quote(myUrl, safe='')
     urlString = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" \
                 + appid \
                 + "&redirect_uri=" + myUrl \
                 + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-    return urlString
+    return redirect(urlString)
+
+
+@app.route('/userinfo/', methods=['GET', 'POST'])
+def userinfo():
+    """
+    userinfo的前段展示页,调用web后会由微信重定向到此页并附带参数
+    :return:
+    """
+    data = request.args
+    if(data != None):
+        code = data.get("code")
+        state = data.get("state")
+        #根据跳转后的code，获取网页的access_token
+        token_data = get_web_access_token(code)
+        web_access_token = token_data.get("access_token")
+        refresh_token = token_data.get("refresh_token")
+        openid = token_data.get("openid")
+        #根据网页的access_token等，获取用户基础信息
+        userinfo_data = get_web_userinfo(web_access_token, openid)
+        nickname = userinfo_data.get("nickname")
+        sex = userinfo_data.get("sex")
+        province = userinfo_data.get("province")
+        city = userinfo_data.get("city")
+        country = userinfo_data.get("country")
+        headimgurl = userinfo_data.get("headimgurl").replace("\/", "/")
+    return render_template('userinfo.html', code=code, state=state,
+                           web_access_token=web_access_token, refresh_token=refresh_token, openid=openid,
+                           nickname=nickname, sex=sex, province=province, city=city, country=country, headimgurl=headimgurl)
+
+
+@app.route('/get_web_access_token/', methods=['GET', 'POST'])
+def get_web_access_token(code):
+    """
+    根据跳转后的code，获取网页的access_token
+    :param code:
+    :return:
+    """
+    url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" \
+          + appid + "&secret=" \
+          + appsecret + "&code=" \
+          + code + "&grant_type=authorization_code"
+    data = requests.get(url).text
+    data = eval(data)
+    return data
+
+
+@app.route('/get_web_userinfo/', methods=['GET', 'POST'])
+def get_web_userinfo(web_access_token, openid):
+    """
+    根据网页的access_token等，获取用户基础信息
+    :param web_access_token:
+    :param openid:
+    :return:返回
+    """
+    url = "https://api.weixin.qq.com/sns/userinfo?access_token=" + web_access_token + "&openid=" + openid + "&lang=zh_CN"
+    data = requests.get(url)
+    data = data.text.encode(data.encoding).decode('utf-8')
+    data = eval(data)
+    return data
 
 
 if __name__ == '__main__':

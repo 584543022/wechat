@@ -1,10 +1,6 @@
-Wed, 06 Jun 2018 11:26:27 _internal.py[line:88] INFO  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
-Wed, 06 Jun 2018 11:26:28 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:26:28] "GET /test/ HTTP/1.1" 200 -
-Wed, 06 Jun 2018 11:26:30 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:26:30] "GET /test/ HTTP/1.1" 200 -
-Wed, 06 Jun 2018 11:26:32 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:26:32] "GET /test/ HTTP/1.1" 200 -
-Wed, 06 Jun 2018 11:26:33 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:26:33] "GET /test/ HTTP/1.1" 200 -
-Wed, 06 Jun 2018 11:26:46 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:26:46] "GET /test/ HTTP/1.1" 200 -
-Wed, 06 Jun 2018 11:27:08 connectionpool.py[line:824] DEBUG Starting new HTTPS connection (1): api.weixin.qq.com
-Wed, 06 Jun 2018 11:27:08 connectionpool.py[line:396] DEBUG https://api.weixin.qq.com:443 "GET /cgi-bin/token?grant_type=client_credential&appid=wxd315dbdf94f065f3&secret=fd115dc3a2603d5c92772b7a6aa3540f HTTP/1.1" 200 194
-Wed, 06 Jun 2018 11:27:09 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:27:09] "GET /test/ HTTP/1.1" 200 -
-Wed, 06 Jun 2018 11:27:11 _internal.py[line:88] INFO 127.0.0.1 - - [06/Jun/2018 11:27:11] "GET /test/ HTTP/1.1" 200 -
+Fri, 08 Jun 2018 15:42:17 _internal.py[line:88] INFO  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
+Fri, 08 Jun 2018 15:42:26 _internal.py[line:88] INFO 127.0.0.1 - - [08/Jun/2018 15:42:26] "GET /test HTTP/1.1" 301 -
+Fri, 08 Jun 2018 15:42:26 connectionpool.py[line:208] DEBUG Starting new HTTP connection (1): 27.17.22.71
+Fri, 08 Jun 2018 15:42:26 connectionpool.py[line:396] DEBUG http://27.17.22.71:8080 "POST /GIM/API/ReportCaseForSQNew HTTP/1.1" 500 5463
+Fri, 08 Jun 2018 15:42:26 _internal.py[line:88] INFO 127.0.0.1 - - [08/Jun/2018 15:42:26] "GET /test/ HTTP/1.1" 200 -
+Fri, 08 Jun 2018 15:42:26 _internal.py[line:88] INFO 127.0.0.1 - - [08/Jun/2018 15:42:26] "GET /favicon.ico HTTP/1.1" 404 -

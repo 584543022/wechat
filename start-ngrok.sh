@@ -1,0 +1,2 @@
+#! /usr/local/src/ngrok
+nohup bin/ngrokd -tlsKey="assets/server/tls/snakeoil.key" -tlsCrt="assets/server/tls/snakeoil.crt" -domain="flask.huchangyi.com"  -httpAddr=":8081" -httpsAddr=":8082" -tunnelAddr=":8083" &

@@ -112,24 +112,38 @@ def wechat():
 
 @app.route('/test/', methods=['GET', 'POST'])
 def test():
-    postUrl = "http://27.17.22.71:8080/GIM/API/ReportCaseForSQNew"
-    postData = {
-	"COMPLAINANTPHONE": "13533852864",
-	"COMPLAINANT": "zxy1111",
-	"CASETYPE": 0,
-	"CASETITLE": "【测试案件请勿动】",
-	"CURRENTPERSON": "zxy1111",
-	"ATTACHMENTID": "E1546D3A8B42404F8322F6D31CA56AF8",
-	"CURRENTPERSONIDCARD": "",
-	"Y": "30.6502197938595",
-	"X": "114.314534194538",
-	"CASEDESCRIPTION": "语音测试",
-    "MSGID": "24638",
-    "COMPLAINANTERID":"420102014002001"
-    }
-    postData = json.dumps(postData, ensure_ascii=False).encode('utf-8')
-    resString = requests.post(postUrl, data=postData).text
-    return resString
+    nowtime = datetime.datetime.now()
+    db = pymysql.connect("qdm165067450.my3w.com", "qdm165067450", "huchangyi", "qdm165067450_db")
+    cursor = db.cursor()
+    cursor.execute("select * from access_token order by time desc limit 1")
+    data = cursor.fetchone()
+    lasttime = data[2]
+    db.close()
+    try:
+        lasttime = datetime.datetime.strptime(lasttime, "%Y-%m-%d %H:%M:%S.%f")
+    except:
+        lasttime = datetime.datetime.strptime(lasttime, "%Y-%m-%d-%H")
+    if (nowtime - lasttime > datetime.timedelta(minutes=120)):
+        getString = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" \
+                    + appid + "&secret=" + appsecret
+        jsonString = requests.get(getString).text
+        # jsonDump = json.dumps(jsonString)
+        # jsonData = json.loads(jsonDump)
+        jsonData = eval(jsonString)
+        access_token = jsonData['access_token']
+        db = pymysql.connect("qdm165067450.my3w.com", "qdm165067450", "huchangyi", "qdm165067450_db")
+        cursor = db.cursor()
+        try:
+            sql = "update access_token set token = '" + access_token + "', time = '" \
+                  + str(nowtime) + "' where id = 1"
+            cursor.execute(sql)
+            db.commit()
+        except:
+            db.rollback()
+        db.close()
+        return make_response(access_token)
+    else:
+        return make_response(data[0])
 
 
 @app.route('/get_access_token/', methods=['GET', 'POST'])

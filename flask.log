@@ -1,6 +1,1 @@
-Fri, 08 Jun 2018 15:42:17 _internal.py[line:88] INFO  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)
-Fri, 08 Jun 2018 15:42:26 _internal.py[line:88] INFO 127.0.0.1 - - [08/Jun/2018 15:42:26] "GET /test HTTP/1.1" 301 -
-Fri, 08 Jun 2018 15:42:26 connectionpool.py[line:208] DEBUG Starting new HTTP connection (1): 27.17.22.71
-Fri, 08 Jun 2018 15:42:26 connectionpool.py[line:396] DEBUG http://27.17.22.71:8080 "POST /GIM/API/ReportCaseForSQNew HTTP/1.1" 500 5463
-Fri, 08 Jun 2018 15:42:26 _internal.py[line:88] INFO 127.0.0.1 - - [08/Jun/2018 15:42:26] "GET /test/ HTTP/1.1" 200 -
-Fri, 08 Jun 2018 15:42:26 _internal.py[line:88] INFO 127.0.0.1 - - [08/Jun/2018 15:42:26] "GET /favicon.ico HTTP/1.1" 404 -
+Tue, 12 Jun 2018 15:40:01 _internal.py[line:88] INFO  * Running on http://0.0.0.0:80/ (Press CTRL+C to quit)

@@ -1,0 +1,14 @@
+panic: open assets/server/tls/snakeoil.crt: no such file or directory
+
+goroutine 1 [running]:
+ngrok/server.Main()
+	/usr/local/src/ngrok/src/ngrok/server/main.go:126 +0x384
+main.main()
+	/usr/local/src/ngrok/src/ngrok/main/ngrokd/ngrokd.go:8 +0x20
+panic: open assets/server/tls/snakeoil.crt: no such file or directory
+
+goroutine 1 [running]:
+ngrok/server.Main()
+	/usr/local/src/ngrok/src/ngrok/server/main.go:126 +0x384
+main.main()
+	/usr/local/src/ngrok/src/ngrok/main/ngrokd/ngrokd.go:8 +0x20
